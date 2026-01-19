@@ -2,13 +2,20 @@ const express = require('express');
 const router = express.Router();
 const workoutSessions = require('../controllers/workout-sessions');
 const {isLoggedIn} = require('../middleware/isLoggedIn');
+const catchAsync = require('../utils/catchAsync');
 
-router.post('/', isLoggedIn, workoutSessions.createWorkoutSession);
-router.post('/:workoutSessionId', isLoggedIn, workoutSessions.logExcercise);
-router.put('/:workoutSessionId/:loggedExcerciseId', isLoggedIn, workoutSessions.updateLoggedExcercise);
-router.delete('/:workoutSessionId/:loggedExcerciseId', isLoggedIn, workoutSessions.deleteLoggedExcercise);
-router.get('/:workoutSessionId', isLoggedIn, workoutSessions.viewWorkoutSession);
-router.get('/', isLoggedIn, workoutSessions.allWorkoutSessions);
-router.delete('/:workoutSessionId', isLoggedIn, workoutSessions.deleteWorkoutSession);
+router.route('/')
+.post(isLoggedIn, catchAsync(workoutSessions.createWorkoutSession))
+.get(isLoggedIn, catchAsync(workoutSessions.allWorkoutSessions));
+
+router.route('/:workoutSessionId')
+.post(isLoggedIn, catchAsync(workoutSessions.logExcercise))
+.get(isLoggedIn, catchAsync(workoutSessions.viewWorkoutSession))
+.delete(isLoggedIn, catchAsync(workoutSessions.deleteWorkoutSession));
+
+router.route('/:workoutSessionId/:loggedExcerciseId')
+.put(isLoggedIn, catchAsync(workoutSessions.updateLoggedExcercise))
+.delete(isLoggedIn, catchAsync(workoutSessions.deleteLoggedExcercise));
+
 
 module.exports = router;

@@ -2,9 +2,12 @@ const express = require('express');
 const router = express.Router();
 const workouts = require('../controllers/workouts');
 const {isLoggedIn} = require('../middleware/isLoggedIn');
+const catchAsync = require('../utils/catchAsync');
 
-router.post('/', isLoggedIn, workouts.createWorkout);
-router.get('/', workouts.viewWorkouts);
-router.get('/:id', workouts.showWorkout);
+router.get('/:id', catchAsync(workouts.showWorkout));
+
+router.route('/')
+.post(isLoggedIn, catchAsync(workouts.createWorkout))
+.get(catchAsync(workouts.viewWorkouts));
 
 module.exports = router;

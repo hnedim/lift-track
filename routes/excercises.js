@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const excercises = require('../controllers/excercises');
+const catchAsync = require('../utils/catchAsync');
 
-router.get('/', excercises.viewExcercises);
-router.get('/:id', excercises.showExcercise);
-router.post('/', excercises.createExcercise);
+router.route('/')
+.get(catchAsync(excercises.viewExcercises))
+.post(catchAsync(excercises.createExcercise));
 
-router.put('/:id', excercises.updateExcercise);
-router.delete('/:id', excercises.deleteExcercise);
+router.route('/:id')
+.get(catchAsync(excercises.showExcercise))
+.put(catchAsync(excercises.updateExcercise))
+.delete(catchAsync(excercises.deleteExcercise));
+
 
 module.exports = router;

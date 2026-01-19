@@ -28,12 +28,3 @@ module.exports.updateWorkout = async(req,res) => {
     res.json({workout});
 }
 
-module.exports.newWorkout = async(req,res) => {
-    const {id} = req.params
-}
-
-module.exports.addWorkout = async(req,res) => {
-    const {id} = req.params;
-    const workout = await Workout.findById(id);
-}
-
