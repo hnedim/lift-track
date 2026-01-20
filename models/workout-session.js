@@ -22,7 +22,7 @@ const WorkoutSessionSchema = new mongoose.Schema({
             }
         ]
     }],
-    date: String
+    date: {type: Date, required: true}
 })
 
 

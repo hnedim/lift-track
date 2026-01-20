@@ -1,17 +1,19 @@
 const Joi = require('joi');
+const {muscleGroups} = require('./models/exercise');
 
 const objectId = Joi.string().hex().length(24);
 
+
 module.exports.workoutSchema = Joi.object({
-    name: Joi.string().required(),
+    name: Joi.string().required().min(3).max(25),
     user: objectId,
-    exercises: Joi.array().items(objectId).required().min(1),
+    exercises: Joi.array().items(objectId).required().min(1).max(50),
     date: Joi.date()
 }).required();
 
 module.exports.exerciseSchema = Joi.object({
-    name: Joi.string().required(),
-    muscleGroup: Joi.string().required(),
+    name: Joi.string().required().min(3).max(25),
+    muscleGroup: Joi.string().required().min(3).max(20).valid(...muscleGroups),
     user: objectId
 }).required();
 

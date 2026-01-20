@@ -1,14 +1,28 @@
 const Workout = require('../models/workout');
 const User = require('../models/user');
+const Exercise = require('../models/exercise');
+const mongoose = require('mongoose');
 
 module.exports.viewWorkouts = async(req,res) => {
-    const workouts = await Workout.find({user: req.user.usedId});
+    const workouts = await Workout.find({user: new mongoose.Types.ObjectId(req.user.userId)})
+    .populate('exercises');
     res.json({workouts});
 }
 
 module.exports.createWorkout = async(req,res) => {
+    const {exercises} = req.body;
+    const userId = req.user.userId;
+    
+    const exerciseCount = await Exercise.countDocuments({
+        _id: {$in: exercises},
+        user: new mongoose.Types.ObjectId(userId)
+    })
+
+    if (exerciseCount != exercises.length){
+        return res.status(403).json({message: "You can only use your own exercises."})
+    }
     const workout = new Workout(req.body);
-    workout.user = req.user.userId;
+    workout.user = userId;
     workout.date = new Date();
     await workout.save();
     res.json({workout});
