@@ -1,5 +1,3 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const Excercise = require('../models/excercise');
 
 module.exports.viewExcercises = async(req,res) => {
@@ -25,7 +23,7 @@ module.exports.showExcercise = async(req,res) => {
 
 module.exports.updateExcercise = async(req,res) => {
     const {id} = req.params;
-    const excercise = await Excercise.findByIdAndUpdate(id, req.body);
+    const excercise = await Excercise.findByIdAndUpdate(id, req.body, {new:true});
     if(excercise){
         res.json({excercise});
     } else {

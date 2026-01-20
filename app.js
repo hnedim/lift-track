@@ -31,7 +31,7 @@ app.use('/workoutSessions', workoutSessions)
 
 app.use((err, req, res, next) => {
     const {statusCode = 500, message ="Something went wrong"} = err;
-    res.status(statusCode).render('error', {statusCode, message, err});
+    res.status(statusCode).json({statusCode, message});
 })
 
 app.listen(3000,console.log('Server running'));

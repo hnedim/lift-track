@@ -8,7 +8,7 @@ module.exports.viewWorkouts = async(req,res) => {
 
 module.exports.createWorkout = async(req,res) => {
     const workout = new Workout(req.body);
-    workout.user = await User.findById(req.user.userId);
+    workout.user = req.user.userId;
     workout.date = new Date();
     await workout.save();
     res.json({workout});
@@ -22,8 +22,7 @@ module.exports.showWorkout = async(req,res) => {
 
 module.exports.updateWorkout = async(req,res) => {
     const {id} = req.params;
-    const workout = await Workout.findById(id);
-    workout.name = req.body.name;
+    const workout = await Workout.findByIdAndUpdate(id, req.body,{new:true});
     await workout.save();
     res.json({workout});
 }

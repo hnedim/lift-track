@@ -4,10 +4,8 @@ const Workout = require('../models/workout');
 const Excercise = require('../models/excercise')
 
 module.exports.createWorkoutSession = async(req,res) => {
-    const workout = await Workout.findById(req.body.workout);
-    const workoutSession = new WorkoutSession();
+    const workoutSession = new WorkoutSession(req.body);
     workoutSession.user = req.user.userId;
-    workoutSession.workout = workout;
     workoutSession.date = new Date();
     await workoutSession.save();
     res.json({workoutSession});
