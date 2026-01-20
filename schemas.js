@@ -5,11 +5,11 @@ const objectId = Joi.string().hex().length(24);
 module.exports.workoutSchema = Joi.object({
     name: Joi.string().required(),
     user: objectId,
-    excercises: Joi.array().items(objectId).required().min(1),
+    exercises: Joi.array().items(objectId).required().min(1),
     date: Joi.date()
 }).required();
 
-module.exports.excerciseSchema = Joi.object({
+module.exports.exerciseSchema = Joi.object({
     name: Joi.string().required(),
     muscleGroup: Joi.string().required(),
     user: objectId
@@ -18,8 +18,8 @@ module.exports.excerciseSchema = Joi.object({
 module.exports.workoutSessionSchema = Joi.object({
     user: objectId,
     workout: objectId.required(),
-    excercises: Joi.array().items(Joi.object({
-        excercise: objectId,
+    exercises: Joi.array().items(Joi.object({
+        exercise: objectId,
         sets: Joi.array().items(Joi.object({
             reps: Joi.number().required(),
             weight: Joi.number()
@@ -29,8 +29,8 @@ module.exports.workoutSessionSchema = Joi.object({
     date: Joi.date()
 }).required()
 
-module.exports.logExcerciseSchema = Joi.object({
-    excercise: objectId.required(),
+module.exports.logExerciseSchema = Joi.object({
+    exercise: objectId.required(),
     sets: Joi.array().items(Joi.object({
         reps:Joi.number().required(),
         weight:Joi.number()

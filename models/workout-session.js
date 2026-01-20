@@ -7,8 +7,8 @@ const WorkoutSessionSchema = new mongoose.Schema({
     workout: {
         type: mongoose.Schema.ObjectId, ref: 'Workout'
     },
-    excercises: [{
-        excercise: {type: mongoose.Schema.ObjectId, ref: 'Excercise', required: true},
+    exercises: [{
+        exercise: {type: mongoose.Schema.ObjectId, ref: 'Exercise', required: true},
         sets: [
             {
                 _id: false,

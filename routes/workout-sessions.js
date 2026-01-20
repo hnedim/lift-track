@@ -4,20 +4,20 @@ const workoutSessions = require('../controllers/workout-sessions');
 const {isLoggedIn} = require('../middleware/isLoggedIn');
 const catchAsync = require('../utils/catchAsync');
 const {validateWorkoutSession} = require('../utils/middleware');
-const {validateLogExcercise} = require('../utils/middleware');
+const {validateLogExercise} = require('../utils/middleware');
 
 router.route('/')
 .post(isLoggedIn, validateWorkoutSession, catchAsync(workoutSessions.createWorkoutSession))
 .get(isLoggedIn, catchAsync(workoutSessions.allWorkoutSessions));
 
 router.route('/:workoutSessionId')
-.post(isLoggedIn, validateLogExcercise, catchAsync(workoutSessions.logExcercise))
+.post(isLoggedIn, validateLogExercise, catchAsync(workoutSessions.logExercise))
 .get(isLoggedIn, catchAsync(workoutSessions.viewWorkoutSession))
 .delete(isLoggedIn, catchAsync(workoutSessions.deleteWorkoutSession));
 
-router.route('/:workoutSessionId/:loggedExcerciseId')
-.put(isLoggedIn, validateLogExcercise, catchAsync(workoutSessions.updateLoggedExcercise))
-.delete(isLoggedIn, catchAsync(workoutSessions.deleteLoggedExcercise));
+router.route('/:workoutSessionId/:loggedExerciseId')
+.put(isLoggedIn, validateLogExercise, catchAsync(workoutSessions.updateLoggedExercise))
+.delete(isLoggedIn, catchAsync(workoutSessions.deleteLoggedExercise));
 
 
 module.exports = router;

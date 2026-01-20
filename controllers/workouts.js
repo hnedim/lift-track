@@ -16,7 +16,7 @@ module.exports.createWorkout = async(req,res) => {
 
 module.exports.showWorkout = async(req,res) => {
     const {id} = req.params;
-    const workout = await Workout.findById(id).populate('excercises');
+    const workout = await Workout.findById(id).populate('exercises');
     if(!workout) res.status(404).json({message: "That workout does not exist."});
     if(workout.user.equals(req.user.userId)){
         res.json({workout});

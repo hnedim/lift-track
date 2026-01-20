@@ -1,7 +1,7 @@
 const {workoutSchema} = require('../schemas');
-const {excerciseSchema} = require('../schemas');
+const {exerciseSchema} = require('../schemas');
 const {workoutSessionSchema} = require('../schemas');
-const {logExcerciseSchema} = require('../schemas');
+const {logExerciseSchema} = require('../schemas');
 const ExpressError = require('../utils/ExpressError')
 
 module.exports.validateWorkout = (req,res,next) => {
@@ -14,8 +14,8 @@ module.exports.validateWorkout = (req,res,next) => {
     }
 }
 
-module.exports.validateExcercise = (req,res,next) => {
-    const {error} = excerciseSchema.validate(req.body);
+module.exports.validateExercise = (req,res,next) => {
+    const {error} = exerciseSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',');
         throw new ExpressError(msg, 400);
@@ -34,8 +34,8 @@ module.exports.validateWorkoutSession = (req,res,next) => {
     }
 }
 
-module.exports.validateLogExcercise = (req,res,next) => {
-    const {error} = logExcerciseSchema.validate(req.body);
+module.exports.validateLogExercise = (req,res,next) => {
+    const {error} = logExerciseSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',');
         throw new ExpressError(msg, 400);

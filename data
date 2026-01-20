@@ -1,16 +1,16 @@
 // WORKOUT SESSION
 {
   "workout": "64f1b3c4d5e6f78901234567",
-  "excercises": [
+  "exercises": [
     {
-      "excercise": "64f1c4d5e6f7890123456789",
+      "exercise": "64f1c4d5e6f7890123456789",
       "sets": [
         { "reps": 12, "weight": 50 },
         { "reps": 10, "weight": 55 }
       ]
     },
     {
-      "excercise": "64f1d5e6f789012345678901",
+      "exercise": "64f1d5e6f789012345678901",
       "sets": [
         { "reps": 8, "weight": 70 }
       ]

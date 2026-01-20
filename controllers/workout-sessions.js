@@ -1,7 +1,7 @@
 const WorkoutSession = require('../models/workout-session');
 const User = require('../models/user');
 const Workout = require('../models/workout');
-const Excercise = require('../models/excercise')
+const Exercise = require('../models/exercise')
 
 module.exports.createWorkoutSession = async(req,res) => {
     const workoutSession = new WorkoutSession(req.body);
@@ -41,7 +41,7 @@ module.exports.allWorkoutSessions = async(req,res) => {
     res.json({workoutSessions});
 }
 
-module.exports.logExcercise = async(req,res) => {
+module.exports.logExercise = async(req,res) => {
     const {workoutSessionId} = req.params;
     const workoutSession = await WorkoutSession.findById(workoutSessionId);
     if(!workoutSession) res.status(404).json({message: "That workout does not exist"});
@@ -52,13 +52,13 @@ module.exports.logExcercise = async(req,res) => {
         res.status(403).json({message: "Unauthorized."})
     }
 
-    workoutSession.excercises.push(req.body);
+    workoutSession.exercises.push(req.body);
     await workoutSession.save();
     res.json({workoutSession});
 }
 
-module.exports.updateLoggedExcercise = async(req,res) => {
-    const {workoutSessionId, loggedExcerciseId} = req.params;
+module.exports.updateLoggedExercise = async(req,res) => {
+    const {workoutSessionId, loggedExerciseId} = req.params;
     const workoutSession = await WorkoutSession.findById(workoutSessionId);
     if(!workoutSession) res.status(404).json({message: "That workout does not exist"});
 
@@ -68,20 +68,20 @@ module.exports.updateLoggedExcercise = async(req,res) => {
         res.status(403).json({message: "Unauthorized."})
     }
 
-    let excerciseLog = workoutSession.excercises.id(loggedExcerciseId);
-    excerciseLog.excercise = req.body.excercise || excerciseLog.excercise;
-    excerciseLog.sets = req.body.sets || excerciseLog.sets;
+    let exerciseLog = workoutSession.exercises.id(loggedExerciseId);
+    exerciseLog.exercise = req.body.exercise || exerciseLog.exercise;
+    exerciseLog.sets = req.body.sets || exerciseLog.sets;
     await workoutSession.save();
     res.json({workoutSession});
 }
 
-module.exports.deleteLoggedExcercise = async(req,res) => {
-    const {workoutSessionId, loggedExcerciseId} = req.params;
+module.exports.deleteLoggedExercise = async(req,res) => {
+    const {workoutSessionId, loggedExerciseId} = req.params;
     const workoutSession = await WorkoutSession.findByIdAndUpdate(workoutSessionId,
-        {$pull: {excercises: {_id: loggedExcerciseId}}},
+        {$pull: {exercises: {_id: loggedExerciseId}}},
         {new: true}
     );
-    
+
     if(!workoutSession) res.status(404).json({message: "That workout does not exist"});
 
     if(workoutSession.user.equals(req.user.userId)){
@@ -93,7 +93,7 @@ module.exports.deleteLoggedExcercise = async(req,res) => {
     res.json({workoutSession});
 }
 // {
-//     excercise: '2141251',
+//     exercise: '2141251',
 //     sets: [
 //         {reps: 12, weight: 75},
 //         {reps: 10, weight: 75},

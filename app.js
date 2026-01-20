@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const users = require('./routes/users.js');
-const excercises = require('./routes/excercises.js');
+const exercises = require('./routes/exercises.js');
 const workouts = require('./routes/workouts.js');
 const workoutSessions = require('./routes/workout-sessions.js')
 const helmet = require('helmet');
@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true  }));
 
 app.use('/', users);
-app.use('/excercises', excercises);
+app.use('/exercises', exercises);
 app.use('/workouts', workouts);
 app.use('/workoutSessions', workoutSessions)
 

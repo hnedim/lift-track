@@ -6,7 +6,7 @@ const WorkoutSchema = new mongoose.Schema({
         required: true
     },
     user: {type: mongoose.Schema.ObjectId, ref: 'User'},
-    excercises: [{type: mongoose.Schema.ObjectId, ref: 'Excercise'}],
+    exercises: [{type: mongoose.Schema.ObjectId, ref: 'Exercise'}],
     date: {
         type: Date,
         required: true
