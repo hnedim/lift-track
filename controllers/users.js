@@ -30,3 +30,8 @@ module.exports.login = async(req,res) => {
     const token = jwt.sign({userId: user._id, email: user.email}, JWT_SECRET, {expiresIn: '1h'});
     res.json({token});
 }
+
+module.exports.viewUser = async(req,res) => {
+    const user = await User.find({_id: req.user.userId});
+    res.json({user});
+}

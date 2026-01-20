@@ -11,7 +11,8 @@ module.exports.workoutSchema = Joi.object({
 
 module.exports.excerciseSchema = Joi.object({
     name: Joi.string().required(),
-    muscleGroup: Joi.string().required()
+    muscleGroup: Joi.string().required(),
+    user: objectId
 }).required();
 
 module.exports.workoutSessionSchema = Joi.object({

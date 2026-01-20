@@ -7,16 +7,16 @@ const {validateWorkoutSession} = require('../utils/middleware');
 const {validateLogExcercise} = require('../utils/middleware');
 
 router.route('/')
-.post(validateWorkoutSession, isLoggedIn, catchAsync(workoutSessions.createWorkoutSession))
+.post(isLoggedIn, validateWorkoutSession, catchAsync(workoutSessions.createWorkoutSession))
 .get(isLoggedIn, catchAsync(workoutSessions.allWorkoutSessions));
 
 router.route('/:workoutSessionId')
-.post(validateLogExcercise, isLoggedIn, catchAsync(workoutSessions.logExcercise))
+.post(isLoggedIn, validateLogExcercise, catchAsync(workoutSessions.logExcercise))
 .get(isLoggedIn, catchAsync(workoutSessions.viewWorkoutSession))
 .delete(isLoggedIn, catchAsync(workoutSessions.deleteWorkoutSession));
 
 router.route('/:workoutSessionId/:loggedExcerciseId')
-.put(validateLogExcercise, isLoggedIn, catchAsync(workoutSessions.updateLoggedExcercise))
+.put(isLoggedIn, validateLogExcercise, catchAsync(workoutSessions.updateLoggedExcercise))
 .delete(isLoggedIn, catchAsync(workoutSessions.deleteLoggedExcercise));
 
 

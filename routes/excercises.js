@@ -3,15 +3,16 @@ const router = express.Router();
 const excercises = require('../controllers/excercises');
 const catchAsync = require('../utils/catchAsync');
 const {validateExcercise} = require('../utils/middleware');
+const {isLoggedIn} = require('../middleware/isLoggedIn');
 
 router.route('/')
-.get(catchAsync(excercises.viewExcercises))
-.post(validateExcercise, catchAsync(excercises.createExcercise));
+.get(isLoggedIn, catchAsync(excercises.viewExcercises))
+.post(isLoggedIn, validateExcercise, catchAsync(excercises.createExcercise));
 
 router.route('/:id')
-.get(catchAsync(excercises.showExcercise))
-.put(validateExcercise, catchAsync(excercises.updateExcercise))
-.delete(catchAsync(excercises.deleteExcercise));
+.get(isLoggedIn, catchAsync(excercises.showExcercise))
+.put(isLoggedIn, validateExcercise, catchAsync(excercises.updateExcercise))
+.delete(isLoggedIn, catchAsync(excercises.deleteExcercise));
 
 
 module.exports = router;

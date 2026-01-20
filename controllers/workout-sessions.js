@@ -14,23 +14,44 @@ module.exports.createWorkoutSession = async(req,res) => {
 module.exports.deleteWorkoutSession = async(req,res) =>{
     const {workoutSessionId} = req.params;
     const workoutSession = await WorkoutSession.findByIdAndDelete(workoutSessionId);
-    res.json({message: "DELETED", workoutSession: workoutSession});
+    if(!workoutSession) res.status(404).json({message: "That workout does not exist"});
+
+    if(workoutSession.user.equals(req.user.userId)){
+        res.json({message: "DELETED", workoutSession: workoutSession});
+    } else {
+        res.status(403).json({message: "Unauthorized."})
+    }
 }
 
 module.exports.viewWorkoutSession = async(req,res) => {
     const {workoutSessionId} = req.params;
     const workoutSession = await WorkoutSession.findById(workoutSessionId);
+    if(!workoutSession) res.status(404).json({message: "That workout does not exist"});
+
+    if(workoutSession.user.equals(req.user.userId)){
+        res.json({message: "DELETED", workoutSession: workoutSession});
+    } else {
+        res.status(403).json({message: "Unauthorized."})
+    }
     res.json({workoutSession});
 }
 
 module.exports.allWorkoutSessions = async(req,res) => {
-    const workoutSessions = await WorkoutSession.find();
+    const workoutSessions = await WorkoutSession.find({user: req.user.usedId});
     res.json({workoutSessions});
 }
 
 module.exports.logExcercise = async(req,res) => {
     const {workoutSessionId} = req.params;
     const workoutSession = await WorkoutSession.findById(workoutSessionId);
+    if(!workoutSession) res.status(404).json({message: "That workout does not exist"});
+
+    if(workoutSession.user.equals(req.user.userId)){
+        res.json({message: "DELETED", workoutSession: workoutSession});
+    } else {
+        res.status(403).json({message: "Unauthorized."})
+    }
+
     workoutSession.excercises.push(req.body);
     await workoutSession.save();
     res.json({workoutSession});
@@ -39,6 +60,14 @@ module.exports.logExcercise = async(req,res) => {
 module.exports.updateLoggedExcercise = async(req,res) => {
     const {workoutSessionId, loggedExcerciseId} = req.params;
     const workoutSession = await WorkoutSession.findById(workoutSessionId);
+    if(!workoutSession) res.status(404).json({message: "That workout does not exist"});
+
+    if(workoutSession.user.equals(req.user.userId)){
+        res.json({message: "DELETED", workoutSession: workoutSession});
+    } else {
+        res.status(403).json({message: "Unauthorized."})
+    }
+
     let excerciseLog = workoutSession.excercises.id(loggedExcerciseId);
     excerciseLog.excercise = req.body.excercise || excerciseLog.excercise;
     excerciseLog.sets = req.body.sets || excerciseLog.sets;
@@ -52,7 +81,15 @@ module.exports.deleteLoggedExcercise = async(req,res) => {
         {$pull: {excercises: {_id: loggedExcerciseId}}},
         {new: true}
     );
-    await workoutSession.save();
+    
+    if(!workoutSession) res.status(404).json({message: "That workout does not exist"});
+
+    if(workoutSession.user.equals(req.user.userId)){
+        res.json({message: "DELETED", workoutSession: workoutSession});
+    } else {
+        res.status(403).json({message: "Unauthorized."})
+    }
+
     res.json({workoutSession});
 }
 // {
