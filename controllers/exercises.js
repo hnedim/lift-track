@@ -20,7 +20,7 @@ module.exports.showExercise = async(req,res) => {
     if(exercise.user == req.user.userId){
         res.json({exercise});
     } else {
-        res.status(403).json({message: "Unauthorized"});
+        return res.status(403).json({message: "Unauthorized"});
     }
 }
 
@@ -32,7 +32,7 @@ module.exports.updateExercise = async(req,res) => {
         const updatedExercise = await Exercise.findByIdAndUpdate(id, req.body, {new:true});
         res.json({updatedExercise})
     } else {
-        res.status(403).json({message: "Unauthorized"});
+        return res.status(403).json({message: "Unauthorized"});
     }
 }
 
@@ -43,6 +43,6 @@ module.exports.deleteExercise = async(req,res) => {
     if(exercise.user.equals(req.user.userId)){
         res.json(`Exercise ${id} deleted`);
     } else {
-        res.status(403).json({message: "Unauthorized"});
+        return res.status(403).json({message: "Unauthorized"});
     }
 }

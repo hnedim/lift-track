@@ -4,7 +4,8 @@ const session = require('express-session');
 const users = require('./routes/users.js');
 const exercises = require('./routes/exercises.js');
 const workouts = require('./routes/workouts.js');
-const workoutSessions = require('./routes/workout-sessions.js')
+const workoutSessions = require('./routes/workout-sessions.js');
+const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const app = express();
 
@@ -18,11 +19,32 @@ const sessionConfig = {
     saveUninitialized: false
 }
 
+// General API rate limiter
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests, please try again later'
+});
+
+// Stricter limiter for auth routes
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // only 5 requests per 15 minutes
+  message: 'Too many login attempts, please try again later'
+});
+
 app.use(session(sessionConfig));
 
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({extended: true  }));
+
+// Apply to all routes
+app.use('/', limiter);
+
+// Apply stricter limits to specific routes
+app.use('/login', authLimiter);
+app.use('/register', authLimiter);
 
 app.use('/', users);
 app.use('/exercises', exercises);

@@ -19,25 +19,26 @@ module.exports.deleteWorkoutSession = async(req,res) =>{
     if(workoutSession.user.equals(req.user.userId)){
         res.json({message: "DELETED", workoutSession: workoutSession});
     } else {
-        res.status(403).json({message: "Unauthorized."})
+        return res.status(403).json({message: "Unauthorized."})
     }
 }
 
 module.exports.viewWorkoutSession = async(req,res) => {
     const {workoutSessionId} = req.params;
-    const workoutSession = await WorkoutSession.findById(workoutSessionId);
+    const workoutSession = await WorkoutSession.findById(workoutSessionId)
+    .populate('exercises.exercise')
+    .populate('workout');
     if(!workoutSession) res.status(404).json({message: "That workout does not exist"});
 
     if(workoutSession.user.equals(req.user.userId)){
-        res.json({message: "DELETED", workoutSession: workoutSession});
+        res.json({workoutSession});
     } else {
-        res.status(403).json({message: "Unauthorized."})
+        return res.status(403).json({message: "Unauthorized."})
     }
-    res.json({workoutSession});
 }
 
 module.exports.allWorkoutSessions = async(req,res) => {
-    const workoutSessions = await WorkoutSession.find({user: req.user.usedId});
+    const workoutSessions = await WorkoutSession.find({user: req.user.userId});
     res.json({workoutSessions});
 }
 
@@ -47,14 +48,13 @@ module.exports.logExercise = async(req,res) => {
     if(!workoutSession) res.status(404).json({message: "That workout does not exist"});
 
     if(workoutSession.user.equals(req.user.userId)){
-        res.json({message: "DELETED", workoutSession: workoutSession});
+        workoutSession.exercises.push(req.body);
+        await workoutSession.save();
+        res.json({workoutSession});
+        res.json({message: "Success", workoutSession});
     } else {
-        res.status(403).json({message: "Unauthorized."})
-    }
-
-    workoutSession.exercises.push(req.body);
-    await workoutSession.save();
-    res.json({workoutSession});
+        return res.status(403).json({message: "Unauthorized."})
+    }    
 }
 
 module.exports.updateLoggedExercise = async(req,res) => {
@@ -63,16 +63,14 @@ module.exports.updateLoggedExercise = async(req,res) => {
     if(!workoutSession) res.status(404).json({message: "That workout does not exist"});
 
     if(workoutSession.user.equals(req.user.userId)){
-        res.json({message: "DELETED", workoutSession: workoutSession});
-    } else {
-        res.status(403).json({message: "Unauthorized."})
-    }
-
-    let exerciseLog = workoutSession.exercises.id(loggedExerciseId);
+        let exerciseLog = workoutSession.exercises.id(loggedExerciseId);
     exerciseLog.exercise = req.body.exercise || exerciseLog.exercise;
     exerciseLog.sets = req.body.sets || exerciseLog.sets;
     await workoutSession.save();
     res.json({workoutSession});
+    } else {
+        return res.status(403).json({message: "Unauthorized."})
+    }
 }
 
 module.exports.deleteLoggedExercise = async(req,res) => {
@@ -87,10 +85,8 @@ module.exports.deleteLoggedExercise = async(req,res) => {
     if(workoutSession.user.equals(req.user.userId)){
         res.json({message: "DELETED", workoutSession: workoutSession});
     } else {
-        res.status(403).json({message: "Unauthorized."})
+        return res.status(403).json({message: "Unauthorized."})
     }
-
-    res.json({workoutSession});
 }
 // {
 //     exercise: '2141251',

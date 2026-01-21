@@ -3,7 +3,6 @@ const {muscleGroups} = require('./models/exercise');
 
 const objectId = Joi.string().hex().length(24);
 
-
 module.exports.workoutSchema = Joi.object({
     name: Joi.string().required().min(3).max(25),
     user: objectId,
@@ -37,4 +36,14 @@ module.exports.logExerciseSchema = Joi.object({
         reps:Joi.number().required(),
         weight:Joi.number()
     })).required().min(1)
+}).required()
+
+module.exports.registerSchema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(5).max(128).required()
+}).required()
+
+module.exports.loginSchema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required()
 }).required()

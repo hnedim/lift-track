@@ -3,9 +3,10 @@ const router = express.Router();
 const users = require('../controllers/users');
 const catchAsync = require('../utils/catchAsync');
 const {isLoggedIn} = require('../middleware/isLoggedIn')
+const {validateRegistration, validateLogin} = require('../utils/middleware');
 
-router.post('/register', catchAsync(users.register));
+router.post('/register', validateRegistration, catchAsync(users.register));
 router.get('/user', isLoggedIn, catchAsync(users.viewUser));
-router.post('/login', catchAsync(users.login));
+router.post('/login', validateLogin, catchAsync(users.login));
 
 module.exports = router;

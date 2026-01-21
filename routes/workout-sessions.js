@@ -3,8 +3,7 @@ const router = express.Router();
 const workoutSessions = require('../controllers/workout-sessions');
 const {isLoggedIn} = require('../middleware/isLoggedIn');
 const catchAsync = require('../utils/catchAsync');
-const {validateWorkoutSession} = require('../utils/middleware');
-const {validateLogExercise} = require('../utils/middleware');
+const {validateWorkoutSession, validateLogExercise} = require('../utils/middleware');
 
 router.route('/')
 .post(isLoggedIn, validateWorkoutSession, catchAsync(workoutSessions.createWorkoutSession))

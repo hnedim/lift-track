@@ -18,3 +18,13 @@
   ]
 }
 
+// LOG EXERCISE
+
+{
+  "exercise": "696f6b3b3d0b32ea8e7ac178",
+  "sets": [
+      {"reps": 12},
+      {"reps": 12},
+      {"reps": 12}
+  ]
+}

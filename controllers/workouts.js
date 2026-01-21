@@ -35,7 +35,7 @@ module.exports.showWorkout = async(req,res) => {
     if(workout.user.equals(req.user.userId)){
         res.json({workout});
     } else {
-        res.status(403).json({message:"Unauthorized"});
+        return res.status(403).json({message:"Unauthorized"});
     }
 }
 
@@ -46,7 +46,7 @@ module.exports.updateWorkout = async(req,res) => {
     if(workout.user.equals(req.user.userId)){
         res.json({workout});
     } else {
-        res.status(403).json({message:"Unauthorized"});
+        return res.status(403).json({message:"Unauthorized"});
     }
 }
 
@@ -57,7 +57,7 @@ module.exports.deleteWorkout = async(req,res) => {
     if(workout.user.equals(req.user.userId)){
         res.json({workout});
     } else {
-        res.status(403).json({message:"Unauthorized"});
+        return res.status(403).json({message:"Unauthorized"});
     }
 }
 
