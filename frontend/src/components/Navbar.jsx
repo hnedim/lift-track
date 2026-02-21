@@ -1,17 +1,22 @@
 import { useAuthStore } from "@/store/useAuthStore.js";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  const { authUser } = useAuthStore();
+  const { authUser, logout } = useAuthStore();
   return (
-    <div>
+    <div className="flex w-screen justify-between p-5 bg-blue-200">
       <h1>LiftTrack</h1>
-      <div>
+      <div className="flex gap-3">
+        <Link to="/">Home</Link>
         {authUser ? (
-          <p>{authUser.email}</p>
+          <div className="flex gap-3">
+            <p className="">{authUser.email}</p>
+            <button onClick={logout}>Log out</button>
+          </div>
         ) : (
-          <div>
-            <button>Log in</button>
-            <button>Sign Up</button>
+          <div className="flex gap-3">
+            <Link to="/login">Log in</Link>
+            <Link to="/signup">Sign up</Link>
           </div>
         )}
       </div>
