@@ -22,14 +22,14 @@ const sessionConfig = {
 // General API rate limiter
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  max: 1000, // limit each IP to 100 requests per windowMs
   message: "Too many requests, please try again later",
 });
 
 // Stricter limiter for auth routes
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // only 5 requests per 15 minutes
+  max: 1000, // only 5 requests per 15 minutes
   message: "Too many login attempts, please try again later",
 });
 
