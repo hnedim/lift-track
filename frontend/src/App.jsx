@@ -10,6 +10,8 @@ import HomePage from "./pages/HomePage";
 import NewWorkoutSessionPage from "./pages/NewWorkoutSessionPage";
 import NewExercisePage from "./pages/NewExercisePage";
 import NewWorkoutPage from "./pages/NewWorkoutPage";
+import ExerciseDetailPage from "./pages/ExerciseDetailPage";
+import WorkoutDetailPage from "./pages/WorkoutDetailPage";
 
 function App() {
   const { checkAuth, authUser } = useAuthStore();
@@ -43,6 +45,14 @@ function App() {
         <Route
           path="/workouts/new"
           element={!authUser ? <LoginPage /> : <NewWorkoutPage />}
+        ></Route>
+        <Route
+          path="/exercises/:id"
+          element={!authUser ? <LoginPage /> : <ExerciseDetailPage />}
+        ></Route>
+        <Route
+          path="/workouts/:id"
+          element={!authUser ? <LoginPage /> : <WorkoutDetailPage />}
         ></Route>
       </Routes>
       <Toaster />

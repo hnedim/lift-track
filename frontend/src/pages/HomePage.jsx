@@ -10,9 +10,21 @@ export default function HomePage() {
   const { authUser } = useAuthStore();
   const { workoutSessions, isWorkoutSessionLoading, getWorkoutSessions } =
     useWorkoutSessionStore();
-  const { workouts, isWorkoutsLoading, getWorkouts } = useWorkoutStore();
-  const { exercises, isExercisesLoading, getExercises, createExercise } =
-    useExerciseStore();
+  const {
+    workouts,
+    isWorkoutsLoading,
+    getWorkouts,
+    createWorkout,
+    deleteWorkout,
+    updateWorkout,
+  } = useWorkoutStore();
+  const {
+    exercises,
+    isExercisesLoading,
+    getExercises,
+    createExercise,
+    deleteExercise,
+  } = useExerciseStore();
 
   useEffect(() => {
     getWorkouts();
@@ -22,7 +34,11 @@ export default function HomePage() {
 
   useEffect(() => {
     getExercises();
-  }, [createExercise]);
+  }, [createExercise, deleteExercise]);
+
+  useEffect(() => {
+    getWorkouts();
+  }, [createWorkout, deleteWorkout, updateWorkout]);
 
   return (
     <>

@@ -16,14 +16,11 @@ module.exports.createWorkout = async (req, res) => {
   const userId = req.user._id;
 
   const exerciseIds = exercises.map((id) => new mongoose.Types.ObjectId(id));
-  console.log(exerciseIds);
 
   const exerciseCount = await Exercise.countDocuments({
     _id: { $in: exerciseIds },
-    user: new mongoose.Types.ObjectId(userId),
+    user: userId,
   });
-
-  console.log(exerciseCount);
 
   if (exerciseCount != exercises.length) {
     return res
@@ -39,7 +36,7 @@ module.exports.createWorkout = async (req, res) => {
 
 module.exports.showWorkout = async (req, res) => {
   const { id } = req.params;
-  const workout = await Workout.findById(id).populate("exercises");
+  const workout = await Workout.findById(id); //REMOVED .POPULATE
   if (!workout)
     res.status(404).json({ message: "That workout does not exist." });
   if (workout.user.equals(req.user._id)) {
@@ -54,7 +51,7 @@ module.exports.updateWorkout = async (req, res) => {
   const workout = await Workout.findByIdAndUpdate(id, req.body, { new: true });
   if (!workout)
     res.status(404).json({ message: "That workout does not exist." });
-  if (workout.user.equals(req.user.userId)) {
+  if (workout.user.equals(req.user._id)) {
     res.json({ workout });
   } else {
     return res.status(403).json({ message: "Unauthorized" });
@@ -66,7 +63,7 @@ module.exports.deleteWorkout = async (req, res) => {
   const workout = await Workout.findByIdAndDelete(id);
   if (!workout)
     res.status(404).json({ message: "That workout does not exist." });
-  if (workout.user.equals(req.user.userId)) {
+  if (workout.user.equals(req.user._id)) {
     res.json({ workout });
   } else {
     return res.status(403).json({ message: "Unauthorized" });

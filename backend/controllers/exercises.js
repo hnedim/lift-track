@@ -18,7 +18,7 @@ module.exports.showExercise = async (req, res) => {
   if (!exercise) {
     return res.status(404).json("That exercise does not exist");
   }
-  if (exercise.user == req.user._id) {
+  if (exercise.user.equals(req.user._id)) {
     res.json({ exercise });
   } else {
     return res.status(403).json({ message: "Unauthorized" });

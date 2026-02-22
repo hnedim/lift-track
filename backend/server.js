@@ -59,8 +59,10 @@ app.use("/api/v1/workouts", workouts);
 app.use("/api/v1/workoutSessions", workoutSessions);
 
 app.use((err, req, res, next) => {
-  const { statusCode = 500, message = "Something went wrong" } = err;
-  res.status(statusCode).json({ statusCode, message });
+  const { statusCode = 500, message } = err;
+  res
+    .status(statusCode)
+    .json({ statusCode, message: message || "Something went wrong" });
 });
 
 connectDB().then(() => {
